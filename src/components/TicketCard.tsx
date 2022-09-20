@@ -20,7 +20,7 @@ const TicketCard = (props: TicketCard) => {
       <div
         className={`flex items-center justify-center w-4 bg-${props.ticket.color}-300 rounded`}
       ></div>
-      <div className="flex items-center justify-center w-12 bg-zinc-300 w-1/6">
+      <div className="flex items-center justify-center bg-zinc-300 w-1/6">
         <img className="rounded-[50%] w-12 h-12" src={props.ticket.avatar} />
       </div>
       <div className="flex items-center justify-center font-semibold bg-zinc-300 w-1/5">
