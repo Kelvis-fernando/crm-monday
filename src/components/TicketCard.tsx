@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Ticket } from "../types/Ticket";
 import { XCircle, PencilSimple } from "phosphor-react";
 import * as Progress from "@radix-ui/react-progress";
+import axios from "axios";
 
 interface TicketCard {
   ticket: Ticket;
@@ -27,6 +28,16 @@ const TicketCard = (props: TicketCard) => {
         return "bg-yellow-200";
       default:
         break;
+    }
+  };
+
+  const deleteTicket = async (id: string) => {
+    try {
+      await axios.delete(`http://localhost:3333/ticket/remove/${id}`).then((response) => {
+        response.status === 204 && axios.get("http://localhost:3333/tickets");
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -62,7 +73,11 @@ const TicketCard = (props: TicketCard) => {
         </Progress.Root>
       </div>
       <div className="flex flex-col gap-2 items-center justify-center bg-zinc-300 w-8 rounded font-semibold">
-        <XCircle className="hover:text-zinc-500" size={22} />
+        <XCircle
+          onClick={() => deleteTicket(props.ticket.id)}
+          className="hover:text-zinc-500"
+          size={22}
+        />
         <PencilSimple className="hover:text-zinc-500" size={22} />
       </div>
     </div>
