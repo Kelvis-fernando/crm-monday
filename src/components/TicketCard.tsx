@@ -15,10 +15,27 @@ const TicketCard = (props: TicketCard) => {
     return () => clearTimeout(timer);
   }, []);
 
+  const bgColorValidation = (color: string) => {
+    switch (color) {
+      case "red":
+        return "bg-red-200";
+      case "blue":
+        return "bg-blue-200";
+      case "green":
+        return "bg-green-200";
+      case "yellow":
+        return "bg-yellow-200";
+      default:
+        break;
+    }
+  };
+
   return (
     <div className="flex text-sm gap-1 h-20 mt-1">
       <div
-        className={`flex items-center justify-center w-4 bg-${props.ticket.color}-300 rounded`}
+        className={`flex items-center justify-center w-4 ${bgColorValidation(
+          props.ticket.color
+        )} rounded`}
       ></div>
       <div className="flex items-center justify-center bg-zinc-300 w-1/6">
         <img className="rounded-[50%] w-12 h-12" src={props.ticket.avatar} />
@@ -30,7 +47,9 @@ const TicketCard = (props: TicketCard) => {
         {props.ticket.description}
       </div>
       <div
-        className={`flex items-center justify-center bg-${props.ticket.color}-300 w-1/5 font-semibold rounded`}
+        className={`flex items-center justify-center ${bgColorValidation(
+          props.ticket.color
+        )} w-1/5 font-semibold rounded`}
       >
         {props.ticket.status}
       </div>
