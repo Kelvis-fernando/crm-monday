@@ -1,3 +1,4 @@
+import axios from "axios";
 import { FormEvent, useState } from "react";
 
 const TicketPage = () => {
@@ -5,20 +6,23 @@ const TicketPage = () => {
     progress: 0,
   });
 
-  const handleCreateBaner = (event: FormEvent) => {
+  const handleCreateBaner = async (event: FormEvent) => {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
     const data = Object.fromEntries(formData);
-    console.log({
-      id: "ushauhsa",
-      title: data.title,
-      owner: data.owner,
-      avatar: data.avatar,
-      status: data.status,
-      progress: data.progress,
-      description: data.description,
-      createdAt: new Date(),
-    });
+
+    try {
+      await axios.post("http://localhost:3333/ticket", {
+        title: data.title,
+        owner: data.owner,
+        avatar: data.avatar,
+        status: data.status,
+        progress: Number(data.progress),
+        description: data.description,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleChange = (e: any) => {
@@ -98,7 +102,7 @@ const TicketPage = () => {
               className="block bg-white w-full border border-slate-300 rounded-md py-2 pl-1 shadow-sm focus:outline-none focus:border-black focus:ring-black focus:ring-1 sm:text-sm"
             >
               <option value="Done">Done</option>
-              <option value="Work in progress">Work in progress</option>
+              <option value="Working on it">Working on it</option>
               <option value="Progress">Progress</option>
               <option value="Stuck">Stuck</option>
             </select>

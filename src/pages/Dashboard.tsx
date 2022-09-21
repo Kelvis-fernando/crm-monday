@@ -1,6 +1,10 @@
+import { useEffect, useState } from "react";
 import TicketCard from "../components/TicketCard";
+import axios from "axios";
+import { Ticket } from "../types/Ticket";
 
 const Dashboard = () => {
+  const [ticket, setTicket] = useState<Ticket[]>([]);
   const tickets = [
     {
       id: "40a9f4ce-39ac-11ed-a261-0242ac120002",
@@ -72,12 +76,16 @@ const Dashboard = () => {
   // const uniqueCategories = [...new Set(tickets?.map(({ category }) => category))];
   // console.log(uniqueCategories);
 
+  useEffect(() => {
+    axios.get("http://localhost:3333/tickets").then((response) => setTicket(response.data));
+  }, []);
+
   return (
     <div className="w-full p-8">
       <h1>My projects</h1>
       <div className="h-4/5">
         <div>
-          {tickets && tickets.map((ticket, index) => <TicketCard key={index} ticket={ticket} />)}
+          {ticket && ticket.map((ticket, index) => <TicketCard key={index} ticket={ticket} />)}
         </div>
       </div>
     </div>
