@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Ticket } from "../types/Ticket";
-import { XCircle } from "phosphor-react";
+import { XCircle, PencilSimple } from "phosphor-react";
 import * as Progress from "@radix-ui/react-progress";
 
 interface TicketCard {
@@ -17,13 +17,13 @@ const TicketCard = (props: TicketCard) => {
 
   const bgColorValidation = (color: string) => {
     switch (color) {
-      case "red":
+      case "Stuck":
         return "bg-red-200";
-      case "blue":
+      case "Progress":
         return "bg-blue-200";
-      case "green":
+      case "Done":
         return "bg-green-200";
-      case "yellow":
+      case "Working on it":
         return "bg-yellow-200";
       default:
         break;
@@ -34,7 +34,7 @@ const TicketCard = (props: TicketCard) => {
     <div className="flex text-sm gap-1 h-20 mt-1">
       <div
         className={`flex items-center justify-center w-4 ${bgColorValidation(
-          props.ticket.color
+          props.ticket.status
         )} rounded`}
       ></div>
       <div className="flex items-center justify-center bg-zinc-300 w-1/6">
@@ -48,7 +48,7 @@ const TicketCard = (props: TicketCard) => {
       </div>
       <div
         className={`flex items-center justify-center ${bgColorValidation(
-          props.ticket.color
+          props.ticket.status
         )} w-1/5 font-semibold rounded`}
       >
         {props.ticket.status}
@@ -61,8 +61,9 @@ const TicketCard = (props: TicketCard) => {
           />
         </Progress.Root>
       </div>
-      <div className="flex items-center justify-center bg-zinc-300 w-8 rounded font-semibold">
-        <XCircle className="hover:text-zinc-500" size={25} />
+      <div className="flex flex-col gap-2 items-center justify-center bg-zinc-300 w-8 rounded font-semibold">
+        <XCircle className="hover:text-zinc-500" size={22} />
+        <PencilSimple className="hover:text-zinc-500" size={22} />
       </div>
     </div>
   );

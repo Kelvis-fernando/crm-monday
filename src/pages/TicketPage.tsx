@@ -1,19 +1,41 @@
-import * as Slider from "@radix-ui/react-slider";
-import { useState, useEffect } from "react";
+import { FormEvent, useState } from "react";
 
 const TicketPage = () => {
-  const [sliderValue, setSliderValue] = useState(0);
+  const [formData, setFormData] = useState({
+    progress: 0,
+  });
 
-  useEffect(() => {
-    console.log(sliderValue);
-  }, [sliderValue]);
-  const teste = () => console.log(sliderValue);
+  const handleCreateBaner = (event: FormEvent) => {
+    event.preventDefault();
+    const formData = new FormData(event.target as HTMLFormElement);
+    const data = Object.fromEntries(formData);
+    console.log({
+      id: "ushauhsa",
+      title: data.title,
+      owner: data.owner,
+      avatar: data.avatar,
+      status: data.status,
+      progress: data.progress,
+      description: data.description,
+      createdAt: new Date(),
+    });
+  };
+
+  const handleChange = (e: any) => {
+    const value = e.target.value;
+    const name = e.target.name;
+
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
   return (
     <div className="w-full p-8">
       <h1>Create a ticket</h1>
-      <div className="flex justify-center items-center mt-10">
-        <form className="flex-col grid grid-cols-2 gap-2">
+      <div className="flex justify-center items-center mt-10 w-full">
+        <form onSubmit={handleCreateBaner} className="flex-col grid grid-cols-2 gap-2 w-3/4">
           <div>
             <label className="block text-sm font-semibold" htmlFor="title">
               Title
@@ -23,6 +45,7 @@ const TicketPage = () => {
               name="title"
               id="title"
               type="text"
+              required
               placeholder="Insert a title"
             />
           </div>
@@ -34,6 +57,7 @@ const TicketPage = () => {
               className="block bg-white w-full border border-slate-300 rounded-md py-2 pl-1 shadow-sm focus:outline-none focus:border-black focus:ring-black focus:ring-1 sm:text-sm"
               name="description"
               id="description"
+              required
               type="text"
               placeholder="Insert a description"
             />
@@ -46,6 +70,7 @@ const TicketPage = () => {
               className="block bg-white w-full border border-slate-300 rounded-md py-2 pl-1 shadow-sm focus:outline-none focus:border-black focus:ring-black focus:ring-1 sm:text-sm"
               name="owner"
               id="owner"
+              required
               type="text"
               placeholder="Who is the owner?"
             />
@@ -69,36 +94,31 @@ const TicketPage = () => {
             <select
               name="status"
               id="status"
+              required
               className="block bg-white w-full border border-slate-300 rounded-md py-2 pl-1 shadow-sm focus:outline-none focus:border-black focus:ring-black focus:ring-1 sm:text-sm"
             >
-              <option value="done">Done</option>
-              <option value="work in progress">Work in progress</option>
-              <option value="progress">Progress</option>
-              <option value="stuck">Stuck</option>
+              <option value="Done">Done</option>
+              <option value="Work in progress">Work in progress</option>
+              <option value="Progress">Progress</option>
+              <option value="Stuck">Stuck</option>
             </select>
           </div>
           <div>
             <label className="block text-sm font-semibold" htmlFor="status">
               Progress
             </label>
-            <Slider.Root
-              className="flex relative items-center w-52 select-none touch-none mt-4"
-              defaultValue={[0]}
-              max={100}
-              step={10}
-              aria-label="Volume"
-              onValueChange={() => setSliderValue}
-            >
-              <Slider.Track className="w-full h-1  bg-zinc-300 relative]">
-                <Slider.Range className="absolute bg-zinc-600 h-full"  />
-              </Slider.Track>
-              <Slider.Thumb className="block w-[20px] h-[20px] bg-zinc-800 border shadow rounded-[50%]" />
-            </Slider.Root>
+            <input
+              type="range"
+              id="progress"
+              name="progress"
+              value={formData.progress}
+              min="0"
+              max="100"
+              onChange={handleChange}
+              className="w-full bg-zinc-500 text-black"
+            />
           </div>
-          <button
-            className="border border-slate-600 h-9 rounded text-sm font-semibold hover:bg-zinc-500 hover:text-white"
-            onClick={() => teste()}
-          >
+          <button className="border border-slate-600 h-9 rounded text-sm font-semibold hover:bg-zinc-500 hover:text-white">
             Submit
           </button>
         </form>
