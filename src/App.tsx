@@ -13,6 +13,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Dashboard />}></Route>
             <Route path="/ticket" element={<TicketPage />}></Route>
+            <Route path="/ticket/update/:id" element={<TicketPage />}></Route>
           </Routes>
         </div>
       </BrowserRouter>

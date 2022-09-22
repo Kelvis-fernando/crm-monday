@@ -3,12 +3,14 @@ import { Ticket } from "../types/Ticket";
 import { XCircle, PencilSimple } from "phosphor-react";
 import * as Progress from "@radix-ui/react-progress";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface TicketCard {
   ticket: Ticket;
 }
 
 const TicketCard = (props: TicketCard) => {
+  const navigate = useNavigate();
   const [progress, setProgress] = useState(13);
 
   useEffect(() => {
@@ -78,7 +80,11 @@ const TicketCard = (props: TicketCard) => {
           className="hover:text-zinc-500"
           size={22}
         />
-        <PencilSimple className="hover:text-zinc-500" size={22} />
+        <PencilSimple
+          onClick={() => navigate(`/ticket/update/${props.ticket.id}`)}
+          className="hover:text-zinc-500"
+          size={22}
+        />
       </div>
     </div>
   );
