@@ -36,9 +36,11 @@ const TicketCard = (props: TicketCard) => {
   const deleteTicket = async (id: string) => {
     try {
       await axios.delete(`http://localhost:3333/ticket/remove/${id}`).then((response) => {
-        response.status === 204 && axios.get("http://localhost:3333/tickets");
+        alert("Delete success!");
+        document.location.reload();
       });
     } catch (error) {
+      alert("Error! try again!");
       console.log(error);
     }
   };

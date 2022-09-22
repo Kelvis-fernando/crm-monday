@@ -1,12 +1,12 @@
 import axios from "axios";
 import { FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const FormTicket = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     progress: 0,
   });
-
-  const idUrl = window.location.href.split("/")[5];
 
   const handleChange = (e: any) => {
     const value = e.target.value;
@@ -18,6 +18,7 @@ const FormTicket = () => {
     }));
   };
 
+  const idUrl = window.location.href.split("/")[5];
   const handleCreateOrEditBaner = async (event: FormEvent) => {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
@@ -33,14 +34,28 @@ const FormTicket = () => {
 
     if (idUrl !== undefined) {
       try {
-        await axios.put(`http://localhost:3333/ticket/update/${idUrl}`, sendDataObject);
+        await axios
+          .put(`http://localhost:3333/ticket/update/${idUrl}`, sendDataObject)
+          .then((response) => {
+            if (response.status >= 200 || response.status >= 299) {
+              alert("Atualizado com sucesso!");
+              return navigate("/");
+            }
+          });
       } catch (error) {
+        alert("Erro! tente novamente mais tarde");
         console.log(error);
       }
     } else {
       try {
-        await axios.post("http://localhost:3333/ticket", sendDataObject);
+        await axios.post("http://localhost:3333/ticket", sendDataObject).then((response) => {
+          if (response.status >= 200 || response.status >= 299) {
+            alert("Criado com sucesso!");
+            return navigate("/");
+          }
+        });
       } catch (error) {
+        alert("Erro! tente novamente mais tarde");
         console.log(error);
       }
     }
