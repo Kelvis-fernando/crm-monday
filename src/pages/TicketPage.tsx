@@ -9,7 +9,7 @@ const TicketPage = ({ update }: TicketPageProps) => {
     <div className="w-full p-8">
       <h1>Create a ticket</h1>
       <div className="flex justify-center items-center mt-10 w-full">
-        {!update ? <FormTicket /> : <FormTicket />}
+        <FormTicket />
       </div>
     </div>
   );

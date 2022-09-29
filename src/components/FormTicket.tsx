@@ -1,8 +1,19 @@
 import axios from "axios";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Ticket } from "../types/Ticket";
 
 const FormTicket = () => {
+  const idUrl = window.location.href.split("/")[5];
+
+  useEffect(() => {
+    idUrl &&
+      axios.get(`http://localhost:3333/ticket/${idUrl}`).then((response) => {
+        setUpdateTicket(response.data);
+      });
+  }, []);
+  const [updateTicket, setUpdateTicket] = useState<Ticket>();
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     progress: 0,
@@ -18,7 +29,6 @@ const FormTicket = () => {
     }));
   };
 
-  const idUrl = window.location.href.split("/")[5];
   const handleCreateOrEditBaner = async (event: FormEvent) => {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
@@ -74,6 +84,7 @@ const FormTicket = () => {
             id="title"
             type="text"
             required
+            defaultValue={updateTicket?.title}
             placeholder="Insert a title"
           />
         </div>
@@ -86,6 +97,7 @@ const FormTicket = () => {
             name="description"
             id="description"
             required
+            defaultValue={updateTicket?.description}
             type="text"
             placeholder="Insert a description"
           />
@@ -99,6 +111,7 @@ const FormTicket = () => {
             name="owner"
             id="owner"
             required
+            defaultValue={updateTicket?.owner}
             type="text"
             placeholder="Who is the owner?"
           />
@@ -111,6 +124,7 @@ const FormTicket = () => {
             className="block bg-white w-full border border-slate-300 rounded-md py-2 pl-1 shadow-sm focus:outline-none focus:border-black focus:ring-black focus:ring-1 sm:text-sm"
             name="avatar"
             id="avatar"
+            defaultValue={updateTicket?.avatar}
             type="text"
             placeholder="Insert the link for your image avatar"
           />
@@ -123,6 +137,7 @@ const FormTicket = () => {
             name="status"
             id="status"
             required
+            defaultValue={updateTicket?.status}
             className="block bg-white w-full border border-slate-300 rounded-md py-2 pl-1 shadow-sm focus:outline-none focus:border-black focus:ring-black focus:ring-1 sm:text-sm"
           >
             <option value="Done">Done</option>
@@ -141,6 +156,7 @@ const FormTicket = () => {
             name="progress"
             min="0"
             max="100"
+            defaultValue={updateTicket?.progress}
             onChange={handleChange}
             className="w-full bg-zinc-500 text-black"
           />
