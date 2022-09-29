@@ -73,7 +73,10 @@ const FormTicket = () => {
 
   return (
     <>
-      <form onSubmit={handleCreateOrEditBaner} className="flex-col grid grid-cols-2 gap-2 w-3/4">
+      <form
+        onSubmit={handleCreateOrEditBaner}
+        className="lg:flex-col lg:grid lg:grid-cols-2 lg:gap-2 lg:w-3/4 sm:w-4/4"
+      >
         <div>
           <label className="block text-sm font-semibold" htmlFor="title">
             Title
